@@ -7,10 +7,11 @@ import type {
 } from 'n8n-workflow';
 import { NodeConnectionType, NodeOperationError } from 'n8n-workflow';
 
-export class MaasNode implements INodeType {
+// 🚨 The exported symbol MUST be exactly "MaaSNode"
+export class MaaSNode implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'MAAS Node',
-		name: 'maasNode',
+		name: 'maasNode',           // internal ID used in workflows
 		group: ['transform'],
 		version: 1,
 		description: 'Interact with Canonical MAAS API',
@@ -26,7 +27,7 @@ export class MaasNode implements INodeType {
 				type: 'options',
 				options: [
 					{ name: 'List Allocated Machines', value: 'listAllocated' },
-					{ name: 'List All Machines', value: 'listAll' },
+					{ name: 'List All Machines',       value: 'listAll' },
 				],
 				default: 'listAllocated',
 			},
@@ -36,7 +37,6 @@ export class MaasNode implements INodeType {
 	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
 		const items = this.getInputData();
 		const returnData: INodeExecutionData[] = [];
-
 		const { maasHost } = await this.getCredentials('maasOAuth1Api');
 		const operation = this.getNodeParameter('operation', 0) as string;
 
@@ -59,7 +59,7 @@ export class MaasNode implements INodeType {
 					options,
 				);
 
-				// ---- Normalize into IDataObject items ----
+				// Normalise response into individual items
 				if (Array.isArray(response)) {
 					for (const machine of response as IDataObject[]) {
 						returnData.push({ json: machine });
