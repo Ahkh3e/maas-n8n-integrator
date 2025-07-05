@@ -3,7 +3,7 @@ import {
     INodeProperties,
 } from 'n8n-workflow';
 
-export class MaasOAuthApi implements ICredentialType {
+export class MaasCredentialsApi implements ICredentialType {
     name = 'maasOAuthApi';
     displayName = 'MAAS OAuth API';
 
